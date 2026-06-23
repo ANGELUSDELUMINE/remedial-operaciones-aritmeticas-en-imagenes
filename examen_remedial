@@ -1,0 +1,57 @@
+import cv2
+import numpy as np
+import matplotlib.pyplot as plt
+img1 = cv2.imread('input1.png')
+img2 = cv2.imread('input2.png')
+
+if img1 is None or img2 is None:
+    print("ERROR: No se encontraron las imágenes...")
+    exit()
+if img1.shape != img2.shape:
+    img2 = cv2.resize(img2, (img1.shape[1], img1.shape[0]))
+added = cv2.add(img1, img2)
+added_rgb = cv2.cvtColor(added, cv2.COLOR_BGR2RGB)
+weighted = cv2.addWeighted(img1, 0.7, img2, 0.3, 0)
+weighted_rgb = cv2.cvtColor(weighted, cv2.COLOR_BGR2RGB)
+subtracted = cv2.subtract(img1, img2)
+subtracted_rgb = cv2.cvtColor(subtracted, cv2.COLOR_BGR2RGB)
+bitwise_and = cv2.bitwise_and(img1, img2)
+and_rgb = cv2.cvtColor(bitwise_and, cv2.COLOR_BGR2RGB)
+
+bitwise_or = cv2.bitwise_or(img1, img2)
+or_rgb = cv2.cvtColor(bitwise_or, cv2.COLOR_BGR2RGB)
+plt.figure(figsize=(12, 8))
+
+
+plt.subplot(2, 3, 1)
+plt.imshow(cv2.cvtColor(img1, cv2.COLOR_BGR2RGB))
+plt.title('Imagen 1 Original')
+plt.axis('off') 
+
+plt.subplot(2, 3, 2)
+plt.imshow(added_rgb)
+plt.title('Suma Simple')
+plt.axis('off')
+
+plt.subplot(2, 3, 3)
+plt.imshow(weighted_rgb)
+plt.title('Suma Ponderada (Mix)')
+plt.axis('off')
+
+plt.subplot(2, 3, 4)
+plt.imshow(subtracted_rgb)
+plt.title('Resta')
+plt.axis('off')
+
+plt.subplot(2, 3, 5)
+plt.imshow(and_rgb)
+plt.title('Bitwise AND')
+plt.axis('off')
+
+plt.subplot(2, 3, 6)
+plt.imshow(or_rgb)
+plt.title('Bitwise OR')
+plt.axis('off')
+
+plt.tight_layout()
+plt.show()
